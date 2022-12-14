@@ -5,6 +5,6 @@ const router = express.Router();
 
 
 
-
 router.post("/generateimage",generateimage)
+
 module.exports = router;
