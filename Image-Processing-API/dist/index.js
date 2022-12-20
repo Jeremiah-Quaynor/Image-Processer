@@ -37,12 +37,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resizeImage = exports.app = void 0;
+// import statments
 var path = require('path');
 var express = require('express');
 var fs = require('fs');
 var sharp = require('sharp');
+var cache = require('./util/routeCache');
+// port for server
 var port = 3000;
+// creating express app
 exports.app = express();
+// resize image function
 function resizeImage(filename, width, height) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -58,27 +63,30 @@ function resizeImage(filename, width, height) {
     });
 }
 exports.resizeImage = resizeImage;
-exports.app.get('/api/images', function (req, res) {
+// endpoint for resizing image
+exports.app.get('/api/images', cache(5000), function (req, res) {
+    // if the are no query strings send an error
     if (Object.keys(req.query).length === 0) {
+        console.log("No query added");
         res.send("Please enter a filename and a size");
         return;
     }
-    else {
-        var filename = req.query.filename;
-        var width = req.query.width;
-        var height = req.query.height;
-        resizeImage(filename, parseInt(width), parseInt(height));
-        // res.send()
+    // creating variables to store queries
+    var filename = req.query.filename;
+    var width = req.query.width;
+    var height = req.query.height;
+    // sending the queries to the resize function
+    resizeImage(filename, parseInt(width), parseInt(height));
+    // displaying generated thumb
+    setTimeout(function () {
         res.sendFile(__dirname + "/assets/thumb/".concat(filename, "-resized.jpg"));
-    }
+    }, 2000);
 });
+// starting server
 exports.app.listen(port, function () {
     console.log("Sever started on http://localhost:".concat(port));
 });
-// const cache = {};
 // app.get('/endpoint', (req, res) => {
-// const cacheKey = 'key1'; // use a unique key to identify the endpoint
-// const cachedData = cache[cacheKey];
 // if (cachedData) {
 // // if the data is in the cache, return it without making a request
 // res.send(cachedData);

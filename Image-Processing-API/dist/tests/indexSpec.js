@@ -39,10 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// import statements
 var supertest_1 = __importDefault(require("supertest"));
 var sharp_1 = __importDefault(require("sharp"));
 var __1 = require("..");
+// creating test server
 var request = (0, supertest_1.default)(__1.app);
+// suite for resize image endpoint
 describe('Testing endpoint responses', function () {
     it('get an endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
@@ -57,6 +60,7 @@ describe('Testing endpoint responses', function () {
         });
     }); });
 });
+// suite for resize Image function
 describe('Testing resize Image Function', function () {
     it('resize an image', function () { return __awaiter(void 0, void 0, void 0, function () {
         var inputImage, outputImage, width, height, output, _a, _b;
@@ -69,11 +73,9 @@ describe('Testing resize Image Function', function () {
                     height = 300;
                     (0, __1.resizeImage)(inputImage, width, height);
                     output = (0, sharp_1.default)(outputImage);
-                    // console.log("here")
                     _a = expect;
                     return [4 /*yield*/, output.metadata()];
                 case 1:
-                    // console.log("here")
                     _a.apply(void 0, [(_c.sent()).width]).toEqual(300);
                     _b = expect;
                     return [4 /*yield*/, output.metadata()];
