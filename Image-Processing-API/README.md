@@ -13,7 +13,7 @@
 <p>
     <h2>Starting localhost Server </h2>
     To start the server run the command <code>npm run start</code>. In your terminal your server will start and you will see a link to access it. 
-    <a>http://localhost:3000</a>.
+    <a href="http://localhost:3000">http://localhost:3000</a>.
 </p>
 
 <p>
@@ -21,7 +21,7 @@
     After starting the server, To access the image resizer, and the endpoint <code>/api/images</code> <br>
     Copy the desired file and paste in the <code>src/assets/full</code> <br>
     Then in the url add the params (filename, width, height) with their values.
-    <strong>example:</strong> <a>http://localhost:3000/api/images?filename=saitama&width=300&height=400</a> <br>
+    <strong>example:</strong> <a href="http://localhost:3000/api/images?filename=saitama&width=300&height=400">http://localhost:3000/api/images?filename=saitama&width=300&height=400</a> <br>
     The file will be generate and stored in the <code>src/assets/thumb</code> directory.
 </p>
 
