@@ -1,16 +1,11 @@
-import { request } from "express";
-
 // import statments
 const path = require('path');
 const express = require('express');
 const fs = require('fs');
 const sharp = require('sharp')
-
+const cache = require('./util/routeCache')
 // port for server
 const port = 3000;
-
-// object for caching
-const cache = {};
 
 
 // creating express app
@@ -25,7 +20,7 @@ export async function resizeImage (filename:string, width:number, height:number)
 
 
 // endpoint for resizing image
-app.get('/api/images', (req: any,res: { send: (arg0: string) => void; sendFile: (arg0: string) => void; })=>{
+app.get('/api/images', cache(5000), (req: any,res: { send: (arg0: string) => void; sendFile: (arg0: string) => void; })=>{
     if (Object.keys(req.query).length === 0){
         res.send("Please enter a filename and a size")
         return 
