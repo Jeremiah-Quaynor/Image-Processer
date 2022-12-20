@@ -35,59 +35,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resizeImage = exports.app = void 0;
-var path = require('path');
-var express = require('express');
-var fs = require('fs');
-var sharp = require('sharp');
-var port = 3000;
-exports.app = express();
-function resizeImage(filename, width, height) {
-    return __awaiter(this, void 0, void 0, function () {
+var supertest_1 = __importDefault(require("supertest"));
+var sharp_1 = __importDefault(require("sharp"));
+var __1 = require("..");
+var request = (0, supertest_1.default)(__1.app);
+describe('Testing endpoint responses', function () {
+    it('get an endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, sharp("src/assets/full/".concat(filename, ".jpg"))
-                        .resize(width, height)
-                        .toFile("src/assets/thumb/".concat(filename, "-resized.jpg"))];
+                case 0: return [4 /*yield*/, request.get('/api/images')];
                 case 1:
-                    _a.sent();
+                    response = _a.sent();
+                    expect(response.status).toBe(200);
                     return [2 /*return*/];
             }
         });
-    });
-}
-exports.resizeImage = resizeImage;
-exports.app.get('/api/images', function (req, res) {
-    if (Object.keys(req.query).length === 0) {
-        res.send("Please enter a filename and a size");
-        return;
-    }
-    else {
-        var filename = req.query.filename;
-        var width = req.query.width;
-        var height = req.query.height;
-        resizeImage(filename, parseInt(width), parseInt(height));
-        // res.send()
-        res.sendFile(__dirname + "/assets/thumb/".concat(filename, "-resized.jpg"));
-    }
+    }); });
 });
-exports.app.listen(port, function () {
-    console.log("Sever started on http://localhost:".concat(port));
+describe('Testing resize Image Function', function () {
+    it('resize an image', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var inputImage, outputImage, width, height, output, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    inputImage = 'saitama';
+                    outputImage = "/home/jeremiah/Projects/noodejs/Image-Processer/Image-Processing-API/src/assets/thumb/saitama-resized.jpg";
+                    width = 300;
+                    height = 300;
+                    (0, __1.resizeImage)(inputImage, width, height);
+                    output = (0, sharp_1.default)(outputImage);
+                    // console.log("here")
+                    _a = expect;
+                    return [4 /*yield*/, output.metadata()];
+                case 1:
+                    // console.log("here")
+                    _a.apply(void 0, [(_c.sent()).width]).toEqual(300);
+                    _b = expect;
+                    return [4 /*yield*/, output.metadata()];
+                case 2:
+                    _b.apply(void 0, [(_c.sent()).height]).toEqual(300);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
-// const cache = {};
-// app.get('/endpoint', (req, res) => {
-// const cacheKey = 'key1'; // use a unique key to identify the endpoint
-// const cachedData = cache[cacheKey];
-// if (cachedData) {
-// // if the data is in the cache, return it without making a request
-// res.send(cachedData);
-// } else {
-// // if the data is not in the cache, make a request and cache the result
-// request('http://example.com/data', (error, response, body) => {
-// if (error) throw error;
-// cache[cacheKey] = body;
-// res.send(body);
-// });
-// }
-// });
