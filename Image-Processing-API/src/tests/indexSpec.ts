@@ -20,15 +20,17 @@ describe('Testing endpoint responses', ()=> {
 describe('Testing resize Image Function', ()=> {
     it('resize an image', async()=> {
         const inputImage = 'saitama'
-        const outputImage ="/home/jeremiah/Projects/noodejs/Image-Processer/Image-Processing-API/src/assets/thumb/saitama-resized.jpg"
+
+        // change the path to the directory of the file
+        const outputImage = `${__dirname}/Image-Processing-API/src/assets/thumb/saitama-resized.jpg`
         const width = 300;
         const height = 300;
 
-        resizeImage(inputImage,width,height)
-
-        const output =  sharp(outputImage);
-        expect((await output.metadata()).width).toEqual(300);
-        expect((await output.metadata()).height).toEqual(300);
+        resizeImage(inputImage,width,height);
+        sharp(outputImage).metadata().then(metadata => {
+            expect(metadata.width).toEqual(300);
+            expect(metadata.height).toEqual(300);
+        })
     });
 });
 

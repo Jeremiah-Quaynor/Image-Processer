@@ -63,26 +63,18 @@ describe('Testing endpoint responses', function () {
 // suite for resize Image function
 describe('Testing resize Image Function', function () {
     it('resize an image', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var inputImage, outputImage, width, height, output, _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    inputImage = 'saitama';
-                    outputImage = "/home/jeremiah/Projects/noodejs/Image-Processer/Image-Processing-API/src/assets/thumb/saitama-resized.jpg";
-                    width = 300;
-                    height = 300;
-                    (0, __1.resizeImage)(inputImage, width, height);
-                    output = (0, sharp_1.default)(outputImage);
-                    _a = expect;
-                    return [4 /*yield*/, output.metadata()];
-                case 1:
-                    _a.apply(void 0, [(_c.sent()).width]).toEqual(300);
-                    _b = expect;
-                    return [4 /*yield*/, output.metadata()];
-                case 2:
-                    _b.apply(void 0, [(_c.sent()).height]).toEqual(300);
-                    return [2 /*return*/];
-            }
+        var inputImage, outputImage, width, height;
+        return __generator(this, function (_a) {
+            inputImage = 'saitama';
+            outputImage = "".concat(__dirname, "/Image-Processing-API/src/assets/thumb/saitama-resized.jpg");
+            width = 300;
+            height = 300;
+            (0, __1.resizeImage)(inputImage, width, height);
+            (0, sharp_1.default)(outputImage).metadata().then(function (metadata) {
+                expect(metadata.width).toEqual(300);
+                expect(metadata.height).toEqual(300);
+            });
+            return [2 /*return*/];
         });
     }); });
 });
