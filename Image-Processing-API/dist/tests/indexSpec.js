@@ -70,7 +70,9 @@ describe('Testing resize Image Function', function () {
             width = 300;
             height = 300;
             (0, __1.resizeImage)(inputImage, width, height);
-            (0, sharp_1.default)(outputImage).metadata().then(function (metadata) {
+            (0, sharp_1.default)(outputImage)
+                .metadata()
+                .then(function (metadata) {
                 expect(metadata.width).toEqual(300);
                 expect(metadata.height).toEqual(300);
             });

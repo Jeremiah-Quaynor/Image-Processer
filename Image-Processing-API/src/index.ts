@@ -7,6 +7,11 @@ const cache = require('./util/routeCache')
 // port for server
 const port = 3000;
 
+let processedData = {
+    filename: "",
+    width: 0,
+    height:0
+}
 
 // creating express app
 export const app = express();
@@ -15,7 +20,7 @@ export const app = express();
 export async function resizeImage (filename:string, width:number, height:number) {
         await sharp(`src/assets/full/${filename}.jpg`)
         .resize(width,height)
-        .toFile(`src/assets/thumb/${filename}-resized.jpg`);
+        .toFile(`src/assets/thumb/${filename}-${width}-${height}.jpg`);
 }
 
 
@@ -29,16 +34,28 @@ app.get('/api/images', cache(5000), (req: any,res: { send: (arg0: string) => voi
     }
     // creating variables to store queries
     let filename = req.query.filename
-    let width = req.query.width
-    let height = req.query.height
-    // sending the queries to the resize function
-    resizeImage(filename, parseInt(width), parseInt(height))
-    // displaying generated thumb
+    let width = parseInt(req.query.width)
+    let height = parseInt(req.query.height)
 
-    setTimeout(() => {
-        res.sendFile(__dirname + `/assets/thumb/${filename}-resized.jpg`)    
-    }, 2000);
-    
+    // checking if the request has already been processed
+    if(filename === processedData.filename && width === processedData.width && height === processedData.height) {
+        res.sendFile(__dirname + `/assets/thumb/${filename}-${width}-${height}.jpg`)    
+    }else{
+
+        // storing the query strings
+        processedData.filename = filename;
+        processedData.width = width;
+        processedData.height = height
+        // displaying generated thumb
+
+        resizeImage(filename, width, height)
+
+        setTimeout(() => {
+            res.sendFile(__dirname + `/assets/thumb/${filename}-${width}-${height}.jpg`)    
+        }, 2000);
+        
+    }
+
 })
 
 
