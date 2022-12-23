@@ -21,7 +21,7 @@ describe("Testing validInput function", ()=> {
     // testing when giving standard inputs
     it('should be true', ()=> {
         console.log(req1)
-        expect(validateInput(req1, res)).toBeTrue()
+        expect(validateInput(req1)).toBeTrue()
     })
     
     // testing if iputs are string
@@ -33,7 +33,7 @@ describe("Testing validInput function", ()=> {
         }
     it('should be false', ()=> {
         console.log(req2)
-        expect(validateInput(req2, res)).toBeFalsy()
+        expect(validateInput(req2)).toBeFalsy()
     })
 
     // testing if one value is negative
@@ -45,7 +45,7 @@ describe("Testing validInput function", ()=> {
         }
     it('should be false', ()=> {
         console.log(req3)
-        expect(validateInput(req3, res)).toBeFalsy()
+        expect(validateInput(req3)).toBeFalsy()
     })
 
         // testing if both inputs are wrong
@@ -57,7 +57,7 @@ describe("Testing validInput function", ()=> {
             }
         it('should be false', ()=> {
             console.log(req4)
-            expect(validateInput(req4, res)).toBeFalsy()
+            expect(validateInput(req4)).toBeFalsy()
         })
 
 })
