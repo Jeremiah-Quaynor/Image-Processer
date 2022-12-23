@@ -39,34 +39,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var supertest_1 = __importDefault(require("supertest"));
-var __1 = require("..");
-// creating test server
-var request = (0, supertest_1.default)(__1.app);
-// suite for resize image endpoint
-describe('Testing endpoint responses', function () {
-    it('should home route ', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
+var sharp_1 = __importDefault(require("sharp"));
+var resizeImage_1 = require("../../util/resizeImage");
+describe('Testing resize Image Function', function () {
+    it('resize an image', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var inputImage, outputImage, width, height;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('should get the Image Processing API', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, request.get('/api/images')];
-                case 1:
-                    response = _a.sent();
-                    expect(response.status).toBe(200);
-                    return [2 /*return*/];
-            }
+            inputImage = 'saitama';
+            outputImage = "".concat(__dirname, "/Image-Processing-API/src/assets/thumb/saitama-resized.jpg");
+            width = 300;
+            height = 300;
+            (0, resizeImage_1.resizeImage)(inputImage, width, height);
+            (0, sharp_1.default)(outputImage)
+                .metadata()
+                .then(function (metadata) {
+                expect(metadata.width).toEqual(300);
+                expect(metadata.height).toEqual(300);
+            });
+            return [2 /*return*/];
         });
     }); });
 });

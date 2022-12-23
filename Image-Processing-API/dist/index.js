@@ -1,101 +1,60 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resizeImage = exports.app = void 0;
+exports.app = void 0;
 // import statments
 var path = require('path');
 var express = require('express');
 var fs = require('fs');
-var sharp = require('sharp');
-var cache = require('./util/routeCache');
+var validateInput_1 = require("./util/validateInput");
 // port for server
 var port = 3000;
+// temporal storage variable
+var queriedFiles = [];
 // creating express app
 exports.app = express();
-// resize image function
-function resizeImage(filename, width, height) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, sharp("src/assets/full/".concat(filename, ".jpg"))
-                        .resize(width, height)
-                        .toFile("src/assets/thumb/".concat(filename, "-resized.jpg"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.resizeImage = resizeImage;
-// endpoint for resizing image
-exports.app.get('/api/images', cache(5000), function (req, res) {
-    // if the are no query strings send an error
-    if (Object.keys(req.query).length === 0) {
-        console.log("No query added");
-        res.send("Please enter a filename and a size");
-        return;
-    }
-    // creating variables to store queries
-    var filename = req.query.filename;
-    var width = req.query.width;
-    var height = req.query.height;
-    // sending the queries to the resize function
-    resizeImage(filename, parseInt(width), parseInt(height));
-    // displaying generated thumb
-    setTimeout(function () {
-        res.sendFile(__dirname + "/assets/thumb/".concat(filename, "-resized.jpg"));
-    }, 2000);
+// landing page endpoint
+exports.app.get("/", function (req, res) {
+    res.send('Welcome to Image Processing');
 });
+// image proccessor API endpoint
+exports.app.get("/api/images", function (req, res) {
+    (0, validateInput_1.validateInput)(req, res);
+});
+// hit endpoint 
+// enter queries filename:string, width:string(1-10000), height:string(1-10000)
+// if no value is entered => send error messaage.
+// if one value is wrong => send error message.
+// when endpoint is accessed with correct queries and values
+// if the file exist, server the file.
+// if the file does not exist create the thumb file and serve it.
+// endpoint for resizing image
+// app.get('/api/images', cache(5000), (req: any ,res: { send: (arg0: string) => void; sendFile: (arg0: string) => void; })=>{
+//     // if the are no query strings send an error
+//     if (Object.keys(req.query).length === 0){
+//         console.log("No query added")
+//         res.send("Please enter a filename and a size")
+//         return 
+//     }
+//     // creating variables to store queries
+//     let filename = req.query.filename
+//     let width = parseInt(req.query.width)
+//     let height = parseInt(req.query.height)
+//     // checking if the request has already been processed
+//     if(filename === processedData.filename && width === processedData.width && height === processedData.height) {
+//         res.sendFile(__dirname + `/assets/thumb/${filename}-${width}-${height}.jpg`)    
+//     }else{
+//         // storing the query strings
+//         processedData.filename = filename;
+//         processedData.width = width;
+//         processedData.height = height
+//         // displaying generated thumb
+//         resizeImage(filename, width, height)
+//         setTimeout(() => {
+//             res.sendFile(__dirname + `/assets/thumb/${filename}-${width}-${height}.jpg`)    
+//         }, 2000);
+//     }
+// })
 // starting server
 exports.app.listen(port, function () {
     console.log("Sever started on http://localhost:".concat(port));
 });
-// app.get('/endpoint', (req, res) => {
-// if (cachedData) {
-// // if the data is in the cache, return it without making a request
-// res.send(cachedData);
-// } else {
-// // if the data is not in the cache, make a request and cache the result
-// request('http://example.com/data', (error, response, body) => {
-// if (error) throw error;
-// cache[cacheKey] = body;
-// res.send(body);
-// });
-// }
-// });
