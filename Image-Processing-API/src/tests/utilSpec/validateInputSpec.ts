@@ -17,10 +17,9 @@ describe("Testing validInput function", ()=> {
         height: "100"
         }
     }
-    let res = ''
     // testing when giving standard inputs
     it('should be true', ()=> {
-        console.log(req1)
+        // console.log(req1)
         expect(validateInput(req1)).toBeTrue()
     })
     
@@ -32,7 +31,7 @@ describe("Testing validInput function", ()=> {
             }
         }
     it('should be false', ()=> {
-        console.log(req2)
+        // console.log(req2)
         expect(validateInput(req2)).toBeFalsy()
     })
 
@@ -44,7 +43,7 @@ describe("Testing validInput function", ()=> {
             }
         }
     it('should be false', ()=> {
-        console.log(req3)
+        // console.log(req3)
         expect(validateInput(req3)).toBeFalsy()
     })
 
@@ -56,7 +55,7 @@ describe("Testing validInput function", ()=> {
                 }
             }
         it('should be false', ()=> {
-            console.log(req4)
+            // console.log(req4)
             expect(validateInput(req4)).toBeFalsy()
         })
 

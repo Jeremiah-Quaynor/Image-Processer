@@ -14,7 +14,7 @@ var validateInput = function (req) {
         return false;
     }
     // checking if the query strings for width and height are numbers
-    else if (!(Number(req.query.width)) && !(Number(req.query.height))) {
+    else if (!Number(req.query.width) && !Number(req.query.height)) {
         console.log('width or height value cannot be converted to integer');
         return false;
     }

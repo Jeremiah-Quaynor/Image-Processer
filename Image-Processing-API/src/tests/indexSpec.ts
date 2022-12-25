@@ -6,7 +6,6 @@ const request = supertest(app);
 
 // suite for resize image endpoint
 describe('Testing endpoint responses', () => {
-
   it('should home route ', async () => {
     const response = await request.get('/');
     expect(response.status).toBe(200);
@@ -17,5 +16,3 @@ describe('Testing endpoint responses', () => {
     expect(response.status).toBe(200);
   });
 });
-
-

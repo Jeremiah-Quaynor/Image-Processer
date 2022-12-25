@@ -1,19 +1,20 @@
-export const validateInput = (
-  req: { query: { width?: string; height?: string } }) => {
+export const validateInput = (req: {
+  query: { width?: string; height?: string };
+}) => {
   // checking inputs
   // check if all three query strings are available
   if (Object.keys(req.query).length < 1) {
     console.log('enter filename, width and height');
     return false;
   }
-   // checking if the query strings for width and height are numbers
-   else if (Number(req.query.width) <1 || Number(req.query.height) < 1) {
+  // checking if the query strings for width and height are numbers
+  else if (Number(req.query.width) < 1 || Number(req.query.height) < 1) {
     console.log('width or height value cannot be converted to integer');
     return false;
   }
 
   // checking if the query strings for width and height are numbers
-  else if (!(Number(req.query.width)) && !(Number(req.query.height))) {
+  else if (!Number(req.query.width) && !Number(req.query.height)) {
     console.log('width or height value cannot be converted to integer');
     return false;
   }
