@@ -1,0 +1,28 @@
+const pool = require('../../database')
+const queries = require('../student/queries')
+
+
+
+const getStudents = (req, res) => {
+    pool.query(queries.getStudents, (error, results)=>{
+        if(error) throw error;
+
+        res.status(200).json(results.rows)
+    })
+
+}
+
+const getStudentByID = (req,res) => {
+    pool.query(queries.getStudentByID, (error, results)=> {
+        if(error) throw error;
+
+        res.status(200).json(results.rows[0])
+    })
+}
+
+
+
+module.exports = {
+    getStudents,
+    getStudentByID
+}
