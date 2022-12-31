@@ -4,6 +4,10 @@ const router = Router();
 
 router.get('/', controller.getStudents);
 router.get('/:id', controller.getStudentByID);
+router.post("/", controller.addStudent);
+router.delete("/:id", controller.removeStudent);
+router.put("/:id", controller.updateStudent);
+
 
 
 
