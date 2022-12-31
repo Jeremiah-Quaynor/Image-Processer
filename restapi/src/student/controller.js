@@ -57,6 +57,8 @@ const removeStudent = ( req, res ) => {
 
 }
 
+
+// updating record in database
 const updateStudent = ( req, res ) => {
     const id = Number(req.params.id);
     const { name } = req.body;
