@@ -2,6 +2,28 @@ import connection from '../database';
 import queries from './queries';
 import { Response, Application } from 'express';
 
+export const getStudents = (
+  _req: Response,
+  res: {
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      json: { (arg0: any[]): void; new (): any };
+    };
+  }
+) => {
+  connection.query(queries.getStudents, (error, results) => {
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+    res.status(200).json(results.rows);
+  });
+
+  // connection.end()
+}
+
+
 const controller = {
   getStudents : (
     _req: Response,

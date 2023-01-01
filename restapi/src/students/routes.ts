@@ -1,9 +1,9 @@
 import { Router} from 'express'
-import controller from './controller';
+import controller, { getStudents } from './controller';
 
 const router = Router();
 
-router.get('/', controller.getStudents);
+router.get('/', getStudents );
 router.get('/:id', controller.getStudentByID);
 router.post('/', controller.addStudent);
 
