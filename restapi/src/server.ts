@@ -1,5 +1,5 @@
 import router from "./students/routes";
-import  express  from 'express'
+import  express, {Request, Response}  from 'express'
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use(express.json())
 
 
 
-app.get('/', (req: any, res: { send: (arg0: string) => void }) => {
+app.get('/', (req:Request , res:Response) => {
     res.send('Home route');
 });
 
